@@ -1,0 +1,469 @@
+
+                               README
+			       ______
+
+=============================================================================
+                           Release Information             
+=============================================================================
+This is the first release of MotifCatcher, version 1.01 (patch 0.01)
+
+The included source code is for educational and noncommercial personal use only.
+
+Please contact Phillip Seitzer (pmseitzer@ucdavis.edu) with questions.
+
+release history:
+version 0.11 -- beta pre-release -- 07-06-2011
+version 0.12 -- gamma pre-release -- 08-17-2011
+version 1.00 -- first release -- 10-5-2011
+version 1.01 -- first release with patch --11-15-2011
+
+=============================================================================
+                           Introduction             
+=============================================================================
+MotifCatcher is a MATLAB platform that seeks to extend the utility of 
+existing motif-finding programs by systematic inclusion/exclusion of input 
+sequence entries, and organization of results in a tree of motifs.
+
+MotifCatcher works best when the user enters a moderate number of input sequences
+(between about 20 and 200), of which the user expects some will contain a significant motif and some will not. 
+An example data set might be a Chromatin Immunopreciptiation
+experiment followed by microarray hybridization (ChIP-chip) experiment, in which 
+proteins could localize to particular segments of DNA due to either direct
+DNA-protein contact (in which case, we may find a subsequence pattern) or
+indirect protein-protein interactions (in which case, there will be no
+subsequence pattern).
+
+MotifCatcher utilized random sampling within a Monte Carlo framework to 
+define motifs for subsets of the whole dat aset.  The default search style
+coordinates iteratively between the MEME and MAST programs (please see
+'Installation'). Plausible meaningful subsets of the whole
+input data set are organized into a distance tree with help from the STAMP platform 
+(please see 'Installation') based on motif similarity.
+
+MotifCatcher also has additional comparative analyses available, and a
+GUI interface, which allows the user to conveniently visualize the data.
+
+=============================================================================
+                          Release Notes  
+=============================================================================
+
+the 'display FPs' and 'view Ri' push buttons from the GUI visualizer
+in step (4) rely on the system command 'open', which is standard on all
+Mac OS X systems, but is not standard on windows or linux.
+
+Some of the batch process commands may not work if path variables are
+set improperly.  The MATLAB path setup may problems, if that is the case
+try explicitly including the MEME and STAMP stand-alone programs in the
+MATLAB path.
+
+For optimal performance, it is recommended to use this release on a Mac OS X machine.
+
+The software was created and run successfully on a Mac Mini OS X 10.6.5,
+with a 2.4 GHz Intel Core 2 Duo processor, and 4 GB of memory.  If problems
+persist, please attempt to run the program on similar system.
+
+=============================================================================
+                          Installation         
+=============================================================================
+
+Prior to the installation of the MotifCatcher platform, please install
+and configure the following dependent programs:
+
+(1) MEME Suite:
+	available at http://meme.nbcr.net/meme4_6_1/meme-download.html
+	NOTE: the source code was built with version 4_5_0. Earlier/Later versions
+        may or may not function properly in all instances.
+(2) STAMP platform: 
+	available at http://www.benoslab.pitt.edu/services.html
+(3) SetPartFolder: 
+	available on the MATLAB file exchange, at
+	http://www.mathworks.com/matlabcentral/fileexchange/24133-set-partition
+
+Please make sure to add the SetPartFolder to your MATLAB path.
+
+In addition to these dependent programs, a recent version of MATLAB
+is needed, along with the additional toolboxes:
+--> Bioinformatics Toolbox
+--> Symbolic Toolbox
+
+NOTE: if you do not wish to compare different MotifCatcher-returned FP motifs
+in a motif map (a somewhat secondary analysis) the SetPartFolder and Symbolic Toolbox are 
+unnecessary.
+
+After these are installed, simply add the MotifCatcher folder to your 
+MATLAB path.  
+
+to run MotifCatcher, type 'MotifCatcher' in the MATLAB command line,
+and press enter.
+=============================================================================
+                         Additional Configuration        
+=============================================================================
+Whenever you use MotifCatcher, it will ask you for the location of all
+dependent programs.  To avoid re-typing the system path of these 
+dependent programs, you may specify the location of these programs in the
+input-gathering files.  
+
+changing other program defaults works similarly to the instructions below.
+
+A list of the source files that need to be edited
+and the lines to edit are given below:
+
+(1) MC_GetInput_WholePathway:
+
+	Lines 214-245 describe receiving user inputs regarding dependent 
+	programs.
+
+	The variable 'prompt6' is enumerated over lines 216 - 221. These 
+	list the programs, in order, required from the user. 
+
+	The variable 'defaultanswer6' is enumerated over lines 229 - 234.  
+	There should be empty strings ('') in each field, signifying that
+	the initial default is an empty string.  Each default entry
+	corresponds to the same field in 'prompt6'.
+
+	Edit each default entry in 'prompt6' according to the
+	specifications of your system.
+	
+(2) MC_GetInput_MakeRelatedSubsets:
+
+	Lines 140-162 describe receiving user inputs regarding dependent 
+	programs.
+
+	The variable 'prompt6' is enumerated over lines 142 - 144. These 
+	list the programs, in order, required from the user. 
+
+	The variable 'defaultanswer6' is enumerated over lines 152 - 154.  
+	There should be empty strings ('') in each field, signifying that
+	the initial default is an empty string.  Each default entry
+	corresponds to the same field in 'prompt6'.
+
+	Edit each default entry in 'prompt6' according to the
+	specifications of your system.
+
+(3) MC_GetInput_MakeMotifTree:
+
+	Lines 80-104 describe receiving user inputs regarding dependent 
+	programs.
+
+	The variable 'prompt6' is enumerated over lines 82 - 85. These 
+	list the programs, in order, required from the user. 
+
+	The variable 'defaultanswer6' is enumerated over lines 93 - 96.  
+	There should be empty strings ('') in each field, signifying that
+	the initial default is an empty string.  Each default entry
+	corresponds to the same field in 'prompt6'.
+
+	Edit each default entry in 'prompt6' according to the
+	specifications of your system.
+
+Note that you may edit other input defaults by modifying the above m files.
+
+=============================================================================
+                             How to use MotifCatcher       
+=============================================================================
+The window that pops up following installation and invocation of MotifCatcher
+(simply type 'MotifCatcher' in the MATLAB command line) offers the following 
+options:
+
+(1) Create data profile for an input data set (whole pipeline)
+(2) Build a set of related subsets from an input data set
+(3) Create a motif tree from a set of related subsets
+(4) Determine families and familial profiles from a motif tree
+(5) Build a motif map from a set of familial profiles
+(6) Evaluate motif co-localizations and co-occurrences in a motif map
+(7) Exit MotifCatcher
+
+To select an option, click the radio button next to each line of text, and 
+click 'submit'.
+
+Options (2) - (6) perform the same function as option (1), with breakpoints
+defined according to major steps in the algorithm.
+
+Typically, it will be superior to run MotifCatcher incrementally (step by
+step), rather than all at once on a single data set, start to finish. 
+This allows the user flexibility where appropriate, and invites re-analysis
+of a data set at appropriate points.
+
+Completion of each step from (2) - (6) produces a MATLAB structure
+'DataSetProfile.mat', which contains all computed information in a single
+MATLAB structure.
+
+A more detailed analysis of the algorithm will be available soon in publication
+form, what follows is a brief description of each step:
+
+(2) Build a set of related subsets from an input data set
+
+The user is queried for a .fasta file containing all input sequences,
+and a preferred output directory. MotifCatcher will create the output 
+directory if it does not yet exist, as well as an 'EndStates_MEME' and 
+an 'EndStates_Seqs' directory. The user will also be asked details about
+the motif they expect to find in the input data set.
+
+!!!!!!!!!
+WARNINGS
+
+(1): the input .fasta file must contain a '>' character at the start of
+each header line, AND following each '>', either a ':', '[', '|', or 'iY' line.
+Each header line must therefore start with '>:', '>[', '>|', '>iY'.  The first
+'>' character is standard for .fasta files, The second character is used by 
+MotifCatcher exclusively.
+
+(2): the header in each input .fasta file in the input data set of sequences 
+must be unique from all headers by the first 24 characters.  This is required
+because when MAST and MEME-files are re-imported for re-processing, only
+the first 24 characters of each sequence name are extracted.
+  
+WARNINGS
+!!!!!!!!
+
+A random subset of user-specified size is taken from the whole input data set,
+and after an iterative addition and subtraction of sites, a final related
+subset of the whole data set is determined, with an accompanying
+motif.
+
+All such related subsets are saved.  The motif they create is in the
+'EndStates_MEME' folder, and their sequences are in the 'EndStates_Seqs'
+folder.
+
+Subsets are generated randomly using MATLAB's built-in Mersenne twister
+algorithm.  Before each random run, an alternative RandStream is defined.
+
+Each individual R describes a plausible motif, given a plausible subset of the
+whole data set.  
+
+(3) Create a motif tree from a library of End States
+
+The motifs determined from all of the related subsets calculated in the previous
+step are organized using the STAMP platform into a tree, to compare the motifs these
+related subsets profduce.  When many random subsets produce similar motifs, this
+motif is likely to be biologically meaningful.
+
+MotifCatcher will create a 'MotifTree' subdirectory from a user-defined root
+directory, and will save all Stamp output to this folder.  The Motif Tree is
+produced in standard Newick Tree format.  The user will be asked to specify
+a large number of options related to the details of motif comparison; however,
+the defaults provided are typically sufficient, and often optimal (this may
+change according to the needs of the user).
+
+A more detailed description of these options is available in the STAMP platform
+documentation.
+
+(4) Determine families and familial profiles from a motif tree
+
+A familial profile (FP) is an 'average' motif profile computed from all the
+related subsets with similar motifs.
+
+The clustering threshold, which determines the breakdown of related subsets
+into families, is a highly important (and variable step), so the user is 
+supplied with a GUI interface, where they may interactively decide which 
+related subsets to include in motif families.  Following the determination
+of families, the user may compute a familal profile (FP) for each family,
+according to an FP frequency threshold. The user may visualize FPs, or 
+the Ri-associated motifs within a motif family using the GUI interface
+
+(5) Build a motif map from a set of familial profiles.
+
+In this step, MotifCatcher searches over the whole data set for instances of
+different computed FPs, and saves the results in a readable cell array
+in the FP-folder.  
+
+(6) Evaluate Motif Co-localizations and Co-occurrences in a Motif Map
+
+In this step, MotifCatcher examines a motif map, and using a Bayesian model,
+searches for statistically unlikely co-occurrences and co-localizations.
+The output to the user is a cell array containing suspected non-random
+co-occurrences and co-localizations, according to the statistical measure 
+'CoVal'.
+
+=============================================================================
+                             Example data set       
+=============================================================================
+An example synthetic data set is included in this folder, named 
+'Synthetic_Data.fasta'
+
+If you are interested in making alternative Synthetic data files, you may run
+the script 'Make_Synthetic_Data.m', which will automatically make
+a new .fasta file, and place it in the MotifCatcher folder.
+
+This synthetic data set consists of 40 sequence entries, 15 of which contain
+a randomly placed subsequence motif 'ATATATATATATATAT', 15 of which contain
+a randomly placed subsequence motif 'CGCGCGCGCGCGCGCG', and 10 of which contain
+neither motif.
+
+The background sequence reflects normally distributed A,T,C, and G content 
+(25% apiece) randomly shuffled in each sequence entry  From this background,
+motif instances were substituted for random continuous 16-mers.
+
+a MEME search using all the same parameters allowing for up to two motifs 
+is unable to resolve either of these two motifs from the synthetic data set.
+
+Throughout the MotifCatcher process, progress will be displayed in the command
+window.  Output will be written to a file directory that MotifCatcher creates.
+
+(1) in the command window, type 'MotifCatcher'
+(2) select the second option from the list (Build a set of related subsets
+    from an input data set).
+
+    click 'Submit'
+
+(3) Define an appropriate root directory. Note: this folder does not
+    have to exist, but the preceding subdirectory must. (In the example below,
+    'Desktop' must exist)
+
+    example: /Users/JohnSmith/Desktop/SyntheticData
+
+    In the box below, input the path of the sequences file.
+    This file is in the 'MotifCatcher' folder.
+ 
+    example: /Users/JohnSmith/Documents/MATLAB/MotifCatcher/Synthetic_Data.fasta
+
+(4) The next box will suggest two related subset directories. click 'OK' to
+    accept the defaults.
+(5) The next box will ask you for various parameters to conduct the motif search.
+	in Minimum Motif Width, type '14'
+	in Maximum Motif Width, type '18'
+	in Which Alphabet? leave the default ('d')
+	in Check for motifs on reverse strand (REVERSE COMPLEMENT?) (y/n),
+		change the default setting from 'y' to 'n'
+	in Force palindromes?, leave the default ('n')
+	Retain the default MAST E-value (10).
+	do not enter an alternative background model (leave the field blank).
+
+	click 'ok'.
+
+(6) In the next dialog box,
+	create 15 random seeds.	
+	select a random seed size of 4.
+
+	click 'ok'
+
+(7) In the next dialog box,
+	leave the default Iterative MEME/MAST MC Search determination protocol.
+
+	click 'submit'.
+
+(8) In the next dialog box,
+	you will be asked to input the full-path location of the MEME and MAST programs.
+	enter those values in now.  if you do not have these programs installed,
+	you will need to install them before continuing.
+
+	As a reminder, you may modify the MotifCatcher software code to display
+	these system paths as defaults, once they are installed. (see 'Additional 
+	Configuration'section).
+
+	click 'ok'
+
+(9) The Monte Carlo simulation portion of the MotifCatcher framework will now commence. 
+	These 15 runs will take some time to complete 
+	(~5-10 minutes on a normal workstation).
+ 
+(10) A dialog box will appear, which will ask you if you would like to continue
+     to the next step. click 'yes'.
+
+(11) A dialog box will appear, which will ask you to input the full path of a
+    desired motif tree directory.  click 'ok' to accept the default.
+
+(12) a dialog box will appear, asking you details about the nature of the motif
+     tree construction. click 'ok' to accept all the defaults.
+
+(13) a dialog box will appear, asking you about the location of the STAMP platform
+     of associated programs.  Enter the full path of these programs.
+
+     As a reminder, you can configure MotifCatcher to display your system defaults,
+     as described in the 'Additional Configuration' section.
+
+     click 'ok'
+
+(13) The motif tree will now be built.  This step should take about ~10 seconds to
+     a minute to complete.
+
+(14) Once the motif tree has been built, you will again be queried if you would
+     like to continue to the next step.  click 'yes'.
+
+(15) two figures should appear, a distance tree of motifs, and another figure
+     window that affords you control of the tree of motifs.
+
+     Notice that the motif tree forms two groups highly divergent groups.
+     (this is a stochastic process, so the two groups will vary in size from
+      run to run.  If a large number of seeds are created, the two groups
+     will be roughly the same size.)
+
+     Select a clutering threshold to segregate the displayed related subsets into
+     two groups.  a value of about '10' should suffice. 
+
+     you will enter this value in the tree-controller window in the editable
+     text field labeled 'clustering threshold'.  Once you have entered the value 
+     in the field, click the pushbutton labeled 'compute families'.
+
+(16) In the tree-controller window, you should see a button that says 'Family', 
+     followed by an editable text box, which by default contains a '1'. Next to
+     this editable text box is a pushbutton, 'View Ri'.
+
+     Pushing this button will display all MEME-output motifs and Ri for the
+     largest motif group.  This will be either the 'ATATATATATATATAT'  motif
+     or the 'CGCGCGCGCGCGCGCG' motif.
+
+     push the button, observe the individual Ri, and change the value from '1'
+     to '2'.  push the button again, and observe motifs similar to the
+     other planted motif.
+
+     You may press the 'Export Families' pushbutton to write these clusters, in
+     a separate MATLAB structure, to the preferred family export directory.
+     by default, this directory will be the input motif tree directory.
+
+(17) the motifs you observe in the Ri groups are approximations to the planted
+     consensus sequences. to try and get a more accurate consensus sequence,
+     find the editable text bos 'FP frequency threshold', and change this value
+     to 1.00 (a very strict FP threshold).
+
+     Click the 'Calculate FPs' pushbutton, which will write the results to
+     the default folder in the editable text line 'Preferred FP folder'.
+     You may modify this folder if you wish.
+
+(18) Click the 'Display FPs' button, which will display a conservative estimate 
+     of the two planted consensus sequences.
+
+     Note that the FP motifs might not perfectly match the planted consensus
+     sequences.
+
+(19) find the 'Create Motif Map' pushbutton, and push it. 
+
+(20) find the 'Evaluate Motif Map' pushbutton, and push it.
+
+(21) find the 'Return to main menu' pushbutton, and push it.
+
+(22) the main window pops up.  find the 'Exit MotifCatcher' radio button, 
+     select it, and press 'Submit'.
+
+(23) In the FP directory you created, find the DataSetProfile.mat structure,
+     and load this structure in the MATLAB command window.
+
+(24) In the DataSetProfile structure you load, find the 'MotifMap' field, and
+     view it.
+
+     glancing down the column reveals that Sequence Entries tend to be included
+     in either the first Familiy, or the second Family, but not both. 
+
+     This is consistent with our setup: we planted motif 1 in 10 sites, and motif 2 in
+     10 sites, but we made sure not to plant both motifs in the same sequence entry.
+
+     Note how each motif is highly corrupted relatve to the whole data set 
+    (15/40 apiece, only 37.5%), but here we can resolve these motifs effectively
+     with just 15 runs.
+
+     Based on the MotifCatcher results, you would discover that two significant 
+     motifs dominate the data set, but that each of these motifs is scarce with
+     regards to the whole data set (15/40 apiece, each motif is only present in
+     37.5% of the sequence entries).  The MotifMap utility would further suggest
+     that the motifs are non-intersecting (or close to it).  
+
+     If this synthetic data set had been generated from meaningful biological 
+     data, the presence of two non-intersecting motif families might suggest 
+     that the biological data is explained by two independent biological 
+     phenomena (with one motif associated with each phenomenon).
+     
+=============================================================================
+                          	Contact        
+=============================================================================
+Please contact Phillip Seitzer (email: pmseitzer@ucdavis.edu)
+with bugs, questions, suggestions, and other comments.
